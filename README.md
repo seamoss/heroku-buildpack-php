@@ -101,7 +101,8 @@ can be downloaded by the build pack (see the URIs in `compile`).
     --with-mysql --with-pdo-mysql --with-pgsql --with-pdo-pgsql         \
     --with-iconv --with-gd --with-curl=/usr/lib                         \
     --with-config-file-path=/app/php --enable-soap=shared               \
-    --with-openssl --with-mcrypt=/app/vendor/mcrypt --enable-sockets
+    --with-openssl --with-mcrypt=/app/vendor/mcrypt --enable-sockets 	\
+	--with-pear --with-mysqli
     make -s
     make install -s
     popd
