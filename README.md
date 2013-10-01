@@ -29,34 +29,10 @@ can be downloaded by the build pack (see the URIs in `compile`).
     #
     # Affixed to all vendored binary output to represent changes to the
     # compilation environment without a change to the upstream version,
-    # e.g. PHP 5.3.27 without, and then subsequently with, libmcrypt.
     heroku_rev='-2'
 
     # Clear /app directory
     find /app -mindepth 1 -print0 | xargs -0 rm -rf
-
-    # Take care of vendoring libmcrypt
-    mcrypt_version=2.5.8
-    mcrypt_dirname=libmcrypt-$mcrypt_version
-    mcrypt_archive_name=$mcrypt_dirname.tar.bz2
-
-    # Download mcrypt if necessary
-    if [ ! -f mcrypt_archive_name ]
-    then
-        curl -Lo $mcrypt_archive_name http://sourceforge.net/projects/mcrypt/files/Libmcrypt/2.5.8/libmcrypt-2.5.8.tar.bz2/download
-    fi
-
-    # Clean and extract mcrypt
-    rm -rf $mcrypt_dirname
-    tar jxf $mcrypt_archive_name
-
-    # Build and install mcrypt.
-    pushd $mcrypt_dirname
-    ./configure --prefix=/app/vendor/mcrypt \
-      --disable-posix-threads --enable-dynamic-loading
-    make -s
-    make install -s
-    popd
 
     # Take care of vendoring Apache.
     httpd_version=2.2.25
@@ -101,7 +77,7 @@ can be downloaded by the build pack (see the URIs in `compile`).
     --with-mysql --with-pdo-mysql --with-pgsql --with-pdo-pgsql         \
     --with-iconv --with-gd --with-curl=/usr/lib                         \
     --with-config-file-path=/app/php --enable-soap=shared               \
-    --with-openssl --with-mcrypt=/app/vendor/mcrypt --enable-sockets 	\
+    --with-openssl --enable-sockets 	\
 	--with-pear --with-mysqli
     make -s
     make install -s
@@ -111,25 +87,12 @@ can be downloaded by the build pack (see the URIs in `compile`).
     mkdir -p /app/php/lib/php
     cp /usr/lib/libmysqlclient.so.16 /app/php/lib/php
 
-    # 'apc' installation
-    #
-    # $PATH manipulation Necessary for 'pecl install', which relies on
-    # PHP binaries relative to $PATH.
-
-    export PATH=/app/php/bin:$PATH
-    /app/php/bin/pecl channel-update pecl.php.net
-
-    # Use defaults for apc build prompts.
-    yes '' | /app/php/bin/pecl install apc
-
     # Sanitize default cgi-bin to rid oneself of Apache sample
     # programs.
     find /app/apache/cgi-bin/ -mindepth 1 -print0 | xargs -0 rm -r
 
     # Stamp and archive binaries.
     pushd /app
-    echo $mcrypt_version > vendor/mcrypt/VERSION
-    tar -zcf mcrypt-"$mcrypt_version""$heroku_rev".tar.gz vendor/mcrypt
     echo $httpd_version > apache/VERSION
     tar -zcf apache-"$httpd_version""$heroku_rev".tar.gz apache
     echo $php_version > php/VERSION
