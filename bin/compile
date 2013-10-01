@@ -36,11 +36,11 @@ if [ -f www/Procfile ]; then
   mv www/Procfile .
 fi
 
-APACHE_URL="https://s3-us-west-2.amazonaws.com/php-buildpack1/httpd-2.2.25.tar.bz2"
+APACHE_URL="https://s3-us-west-2.amazonaws.com/php-buildpack1/apache-2.2.25-2.tar.gz"
 echo "-----> Bundling Apache version $APACHE_VERSION"
 curl --silent --max-time 60 --location "$APACHE_URL" | tar xz
 
-PHP_URL="https://s3-us-west-2.amazonaws.com/php-buildpack1/php-5.3.27.tar.bz2"
+PHP_URL="https://s3-us-west-2.amazonaws.com/php-buildpack1/php-5.3.27-2.tar.gz"
 echo "-----> Bundling PHP version $PHP_VERSION"
 curl --silent --max-time 60 --location "$PHP_URL" | tar xz
 
