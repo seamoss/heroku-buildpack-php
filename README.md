@@ -99,14 +99,9 @@ can be downloaded by the build pack (see the URIs in `compile`).
     tar -zcf php-"$php_version""$heroku_rev".tar.gz php
     popd
 
-Hacking
--------
-
-To change this buildpack, fork it on Github. Push up changes to your fork, then create a test app with --buildpack <your-github-url> and push to it.
-
 
 Meta
 ----
 
-Created by Pedro Belo.
-Many thanks to Keith Rarick for the help with assorted Unix topics :)
+//Edited by Travis Stoll
+//Rev 1.0 9/30/2013
