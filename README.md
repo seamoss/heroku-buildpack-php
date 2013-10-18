@@ -78,7 +78,7 @@ can be downloaded by the build pack (see the URIs in `compile`).
     --with-iconv --with-gd --with-curl=/usr/lib                         \
     --with-config-file-path=/app/php --enable-soap=shared               \
     --with-openssl --enable-sockets 	\
-	--with-pear --with-mysqli
+	--with-pear --with-mysqli --enable-mbstring
     make -s
     make install -s
     popd
